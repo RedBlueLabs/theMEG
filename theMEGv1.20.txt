@@ -1,0 +1,66 @@
+Changelog
+
+1. nmap stealth scan
+tcp.window_size_value == 1024 and tcp.flags.syn==1
+
+2.UDP protocol colour change
+-darker, it is sharper and stands out 
+
+3.DNS Errors button
+dns.flags.rcode != 0 or (dns.flags.response eq 1 and not (dns.a or !dns.aaaa))
+
+4.DNS Errors colouring rule
+dns.flags.rcode != 0 or (dns.flags.response eq 1 and not (dns.a or !dns.aaaa))
+
+5.DNS type A record button
+dns.qry.type == 1
+
+6. HTTP POST colouring rule
+http.request.method == "POST"
+
+7. HTTP PUT colouring rule
+http.request.method == "POST"
+
+8. TLS < 1.2 button
+
+9. only tls 1.2 button
+tls.handshake.version == 0x0303 and not tls.handshake.extensions.supported_version and tls.handshake.type == 1
+
+10. only tls 1.3 button
+tls.handshake.extensions.supported_version and tls.handshake.type == 1
+
+11. attempt to find all DHCPv6 relay agents and servers on link local
+ipv6.addr == ff02::1:2
+-->Monitoring DHCPv6 traffic can be part of security analysis to ensure that only authorized DHCPv6 servers are operating on the network. Unexpected or unauthorized DHCPv6 servers could indicate a security concern, such as a rogue server.
+
+12. Select specific TCP Stream
+tcp.stream == ${tcp.stream}
+
+13. Moved "windows" button and "GEO" button under "Signatures"
+
+14. coloring rule for protocol 802.11
+wlan_radio.phy == 5
+
+15. button for all wireless management
+wlan.mgt
+
+16. button for isolated wireless deauth.  if you see a lot you could be dealing with a deauth attack
+-Deauthentication frames are used to terminate a connection between a client and an access point. Detecting an unusual number of deauthentication frames could indicate an attack attempting to disrupt network connectivity or perform a deauthentication attack.
+wlan.fc.type_subtype == 0x000a
+
+17. button added for finding all Access points.
+wlan.fc.type_subtype == 0x0008
+
+18. button for teardrop attack
+    ip.flags.mf == 1: This condition checks if the "More Fragments" (MF) flag is set to 1, indicating that the packet is part of a fragmented IP datagram.
+    ip.frag_offset == 0: This condition checks if the fragment offset is 0, which indicates the first fragment of the IP datagram.
+ip.flags.mf == 1 && ip.frag_offset == 0
+
+19. button for ip fragment that is smaller than the header.  indicicitive of a potential fragment attack
+    (ip.len < ip.hdr_len): This condition checks if the total length of the IP packet (including the IP header and payload) is less than the length specified in the IP header (ip.len). This indicates that the fragment size is smaller than the IP header.
+    ip.flags.mf == 1: This condition checks if the "More Fragments" (MF) flag is set to 1, indicating that the packet is part of a fragmented IP datagram.
+(ip.len < ip.hdr_len) && ip.flags.mf == 1
+
+20. moved L7//WEB//Risky HTTP methods to L7//HTTP/Risky HTTP methods
+
+

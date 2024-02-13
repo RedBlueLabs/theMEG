@@ -1,0 +1,93 @@
+changelong from theMEGv1.20
+
+1. ipv6 frag set 
+The IPv6 fragment header is being removed from core IPv6 due to exploitation risks.
+#ipv6.fragment
+
+2.  added http button for GET method
+useful for determining machines that are reaching out to retrieve something from a web host
+#http.request.method in {"GET"}
+
+3. changed button filter for "choose specific stream" L4//TCP//choose specific stream to the following
+>tcp.stream == #
+-change made in order to more easily visually remind the user that they need to manually input a number
+
+4. added button L3//Land Attack1
+>ip.src==ip.dst
+this attack has the source and destination IP being equal to one another.  This is not normal
+
+5. moved HTTP File transfers from "signatures" drop down to L7//HTTP//HTTP File Transfers
+
+6. added button L3//Land Attack variation2
+>(ip.src==ip.dst && ip.src == ip.dst) && (tcp.srcport == tcp.dstport)
+this is a another version of the "land attack 1"  I wanted to have two variations in case only the IPs of source and destination match.
+
+7.Removed Signatures//autorun
+a pattern matching that is not incredibily necessary, you are better off using the search functionality for this pattern
+
+8.Added button Signatures//malware_key_words
+>(tcp contains "CreateProcessA" or
+ tcp contains "CreateFileW" or
+ tcp contains "RegOpenKeyExW" or
+ tcp contains "RegQueryValueExW" or
+ tcp contains "WriteFile" or
+ tcp contains "GetProcAddress" or
+ tcp contains "LoadLibraryA" or
+ tcp contains "GetSystemMetrics" or
+ tcp contains "GetWindowRect" or
+ tcp contains "EnumDisplayDevicesW")
+
+notes from chatgpt 
+	RegOpenKeyExW: Used to open a registry key, which could be manipulated by malware to store configuration or malicious data.
+
+    RegQueryValueExW: Retrieves the data associated with a specified registry key, which could contain configuration or instructions for malware.
+
+    CreateProcessA: Creates a new process, which could be used by malware to execute additional malicious code.
+
+    CreateFileW: Creates or opens a file or I/O device, allowing malware to interact with files on the system.
+
+    ReadFile: Reads data from a file or I/O device, which could be used by malware to access or steal sensitive information.
+
+    WriteFile: Writes data to a file or I/O device, enabling malware to modify files or write additional malicious code.
+
+    WSAGetLastError: Retrieves the last error that occurred during socket operations, which could be used by malware for error handling or to determine the success of network operations.
+
+    HeapAlloc: Allocates a block of memory from a heap, which could be used by malware for dynamic memory allocation.
+
+    VirtualAlloc: Reserves, commits, or changes the state of a region of memory, which could be used by malware for memory manipulation or code injection.
+
+    CreateThread: Creates a new thread for concurrent execution, allowing malware to execute multiple tasks simultaneously or perform parallel processing.
+ 9. button added to filter on python webserver being used.  A technique specific to data exfiltration typically. or calling to remote server
+ >http.user_agent == "Wget/1.10.2"
+
+#################################
+The following three buttons 10-12 have been enclosed in additional brackets because these filters can be paired with other filters really well
+
+ 10.button.  any traffic coming from a source of class A or C that is leaving the network
+ this is an effective filter for detecting traffic that is leaving the network coming from a private IP
+ >((ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8) and !(ip.dst==192.168.0.0/16 or ip.dst==10.0.0.0/8))
+
+ 11.button. all traffic from a class A or C address that is internal
+another extremely useful filter for threat hunting
+ >((ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8) and (ip.dst ==192.168.0.0/16 or ip.dst==10.0.0.0/8))
+
+12. button.  filtering on external IP sending a SYN to an internal IP
+Why would an external IP address be initiating a connection internally?
+>(!(ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8) and (tcp.flags==0x2 and (ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8)))
+################################
+13. button L1//Frame Range
+very useful for digging in to a particular set of frames.  understanding what happened in between the frames can be very informative
+>frame.number >= 1000 and frame.number <= 2000
+
+14-20.
+I am combining all 14-20 in one big chunk because quite honestly the change is rather big.  in the I/O graph under statistics you can preload important filters that are loaded every time you open wirehsark and load your profile
+
+Here is a list of filters I preloaded, moving past v1.40 I will count any new filters in this section as a single addition
+all out bound traffic from private network
+>((ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8) and !(ip.dst ==192.168.0.0/16 or ip.dst==10.0.0.0/8))
+arp traffic is very useful for scan detection and just in general seeing abnormal arp traffic and when it happened
+>arp
+all internal traffic filtered by class A and C
+>((ip.src==192.168.0.0/16 or ip.src==10.0.0.0/8) and (ip.dst ==192.168.0.0/16 or ip.dst==10.0.0.0/8))
+only GET http method
+>http.request.method in {"GET"}

@@ -1,0 +1,11 @@
+Wireshark Cyber Security Profile
+
+There are many things that have been added since I started this project.  I will do my best to keep a change log moving forward.  For now generally you can see the categories I have worked on.
+
+-custom columns
+-sharper colouring rules to help easily spot particular packets
+	- custom coloured rules to assist in spotting unique conversations
+
+-window panes where list pane is primary and details and bytes is directly underneath
+
+-buttons have been added that reflect a variety of cyber related tasks that one would want to filter by.  The filters are organized by OSI layer, additionally there is a "signatures" drop down button that has unique options to help isolate what is happening in the capture

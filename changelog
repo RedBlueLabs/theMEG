@@ -1,0 +1,6 @@
+changelog
+April 23,2025
+-added new column and moved to second from left tcp.stream.
+    -helps to visually see which packets belong to what TCP stream
+-added Signatures/SQLi filter
+    -helps isolate SQLi traffic efficiently

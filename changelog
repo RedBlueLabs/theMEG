@@ -15,3 +15,13 @@ May 7, 2025
     - seconds (also useful to bounce between this and milliseconds)
     - selected "display seconds with hours and minutes
         security purpose of these changes is to visually show quickly how much time has passed.  It quickly answers the question how long did an incident occur?
+May 9, 2025
+1) added L7//HTTP//all unprotected cookies
+    for any sites that have a user connect to it but it isn't secured properly this filter will bring you right to the packet that 
+    has the PHPSESSION ID created
+2) L7//HTTP//TLS session.id
+    in the same thought as the previous addition, for secured sites a TLS session is created.  This will
+    retrieve all packets involving session.id
+    can be used to confirm user accessed a site, and what site it was
+2.5) this is a old note but I actually changed the colour to bright yellow with black text so that when 
+    when this traffic occurrs it really "pops" 

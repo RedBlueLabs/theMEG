@@ -1,4 +1,10 @@
 changelog
+December 2025
+
+added button under windows and associated filter that searches for usernames in LDAP
+ldap contains "CN=Users"
+
+
 April 23,2025
 -added new column and moved to second from left tcp.stream.
     -helps to visually see which packets belong to what TCP stream

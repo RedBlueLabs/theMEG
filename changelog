@@ -1,8 +1,22 @@
 changelog
 December 2025
 
-added button under windows and associated filter that searches for usernames in LDAP
+1)added button under windows and associated filter that searches for usernames in LDAP
 ldap contains "CN=Users"
+
+
+added 3 more buttons under signature for malware
+2)(http.request or tls.handshake.type eq 1) and !(ssdp)
+
+Purpose: To capture the initial stages of outbound communication to potential command and control (C2) servers.
+
+3)(http.request or tls.handshake.type eq 1 or (tcp.flags.syn eq 1 and tcp.flags.ack eq 0)) and !(ssdp)
+
+Purpose: Expands Filter 1 to also include initial network probing and scanning activity from a compromised host.
+
+4)(http.request or tls.handshake.type eq 1 or (tcp.flags.syn eq 1 and tcp.flags.ack eq 0) or dns) and !(ssdp)
+
+Purpose: Expands Filter 2 to include DNS traffic, which is critical for both reconnaissance and data exfiltration.
 
 
 April 23,2025
